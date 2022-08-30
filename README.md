@@ -48,3 +48,31 @@ Below are steps you can follow to complete each component of this project.
 2. Implement the logic in `etl.py` to load data from staging tables to analytics tables on Redshift.
 3. Test by running `etl.py` after running `create_tables.py` and running the analytic queries on your Redshift database to compare your results with the expected results.
 4. Delete your redshift cluster when finished.
+
+## How to run scripts
+
+Set environment variables `KEY` and `SECRET`.
+
+Choose `DB/DB_PASSWORD` in `dhw.cfg`.
+
+Create IAM role, Redshift cluster, connect to S3 bucket and configure TCP connectivity  
+
+Drop and recreate tables
+
+```bash
+$ python create_tables.py
+```
+
+Run ETL pipeline
+
+```bash
+$ python etl.py
+```  
+
+Validate the tables  
+* Run test.ipynb  
+* Open the Amazon Redshift and use the database info to make a connection.  
+* Execute query in test.ipynb to check the tables.  
+
+
+Delete IAM role and Redshift cluster
