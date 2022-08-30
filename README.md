@@ -3,7 +3,7 @@
 Sparkify, a startup, wants its analytics team to analyse the data collected on songs and user activity from its music streaming app. 
 The purpose of this project is implement a pipeline in python in order to extract, transform and load the information from JSON files into a postgre database and implement some analytics.
 The JSON files consist of :
-* log files containing information about the streaming activity of users,
+* log files containing information about the streaming activity of users,~
 * song files containing meta data of the songs.
 
 ## Project Datasets
