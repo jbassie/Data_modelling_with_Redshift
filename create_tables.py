@@ -14,7 +14,7 @@ def create_tables(cur, conn):
 
 def main():
     config = configparser.ConfigParser()
-    config.read()
+    config.read('dwh.cfg')
 
     conn = psycopg2.connect("host={} dbname = {} password = {} port={}".format(*config['CLUSTER'].values()))
     cur =conn.cursor()

@@ -122,7 +122,7 @@ copy staging_events from {bucket}
     region      'us-west-2'
     format      as JSON {path}
     timeformat  as 'epochmillisecs'
-""").format(bucket - LOG_DATA, role=IAM_ROLE, path=LOG_PATH)
+""").format(bucket = LOG_DATA, role=IAM_ROLE, path=LOG_PATH)
 
 staging_songs_copy = ("""
     copy staging_songs from {bucket}
