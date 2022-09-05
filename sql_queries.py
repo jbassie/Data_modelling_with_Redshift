@@ -11,12 +11,12 @@ IAM_ROLE = config.get("IAM_ROLE", "ARN")
 
 #DROP TABLES
 staging_events_table_drop = "DROP TABLE IF EXISTS staging_events"
-staging_songs_table_drop = "DROP TABLE IF EXIST staging_songs"
+staging_songs_table_drop = "DROP TABLE IF EXISTS staging_songs"
 songplay_table_drop = "DROP TABLE IF EXISTS songplays"
 user_table_drop = "DROP TABLE IF EXISTS users"
 song_table_drop = "DROP TABLE IF EXISTS songs"
 artist_table_drop = "DROP TABLE IF EXISTS artist"
-time_table_drop = "DROP TABLE IF EXIST time"
+time_table_drop = "DROP TABLE IF EXISTS time"
 
 #CREATE TABLES
 
@@ -34,11 +34,11 @@ CREATE TABLE IF NOT EXISTS staging_events(
     method TEXT,
     page TEXT,
     regstration TEXT,
-    sessionId INT
+    sessionId INT,
     song TEXT,
     status INT,
     ts BIGINT,
-    userAgent TEXT
+    userAgent TEXT,
     userId INT
 )
 """
@@ -47,7 +47,6 @@ staging_songs_table_create ="""
 CREATE TABLE IF NOT EXISTS staging_songs(
     song_id TEXT PRIMARY KEY,
     artist_id TEXT,
-    artist_latitude FLOAT,
     artist_latitude FLOAT,
     artist_location TEXT,
     artist_name VARCHAR(255),
@@ -73,7 +72,7 @@ CREATE TABLE IF NOT EXISTS songplays(
 """
 
 user_table_create = """
-CREATE TBALE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS users(
     user_id VARCHAR PRIMARY KEY NOT NULL,
     first_name VARCHAR,
     last_name VARCHAR,
@@ -85,7 +84,7 @@ CREATE TBALE IF NOT EXISTS users(
 
 song_table_create = """
 CREATE TABLE IF NOT EXISTS songs(
-    song_id     VARCHAR PRIMARY NOT NULL,
+    song_id     VARCHAR PRIMARY KEY NOT NULL,
     title       VARCHAR NOT NULL,
     artist_id   VARCHAR NOT NULL,
     year        INT,
@@ -94,12 +93,12 @@ CREATE TABLE IF NOT EXISTS songs(
 """
 
 artist_table_create = """
-CREATE TABLE IF NOT EXIST artist(
-    artist_id VARCAHR PRIMARY KEY NOT NULL,
+CREATE TABLE IF NOT EXISTS artist(
+    artist_id VARCHAR PRIMARY KEY NOT NULL,
     name VARCHAR,
     location VARCHAR,
     latitude VARCHAR,
-    longitude VARCAHR
+    longitude VARCHAR
 )
 """
 
@@ -119,7 +118,7 @@ CREATE TABLE IF NOT EXISTS time(
 
 staging_events_copy = ("""
 copy staging_events from {bucket}
-    credentials 'aws_iam_role = {role}'
+    credentials 'aws_iam_role={role}'
     region      'us-west-2'
     format      as JSON {path}
     timeformat  as 'epochmillisecs'
@@ -127,7 +126,7 @@ copy staging_events from {bucket}
 
 staging_songs_copy = ("""
     copy staging_songs from {bucket}
-    credentials 'aws_iam_role= {role}'
+    credentials 'aws_iam_role={role}'
     region      'us-west-2'
     format      as JSON 'auto'
 """).format(bucket = SONG_PATH, role=IAM_ROLE)
