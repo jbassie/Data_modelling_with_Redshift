@@ -5,7 +5,7 @@ config =configparser.ConfigParser()
 config.read('dwh.cfg')
 
 LOG_DATA = config.get("S3", "LOG_DATA")
-LOG_PATH = config.set('S3', "LOG_JSONPATH")
+#LOG_PATH = config.set("S3", "LOG_JSONPATH")
 SONG_PATH = config.get("S3", "SONG_DATA")
 IAM_ROLE = config.get("IAM_ROLE", "ARN")
 
@@ -14,8 +14,9 @@ staging_events_table_drop = "DROP TABLE IF EXISTS staging_events"
 staging_songs_table_drop = "DROP TABLE IF EXIST staging_songs"
 songplay_table_drop = "DROP TABLE IF EXISTS songplays"
 user_table_drop = "DROP TABLE IF EXISTS users"
-song_table_drop = "DROP TABLE IF EXISTS artists"
-time_table_drop = "DROP TABLE IF EXIST artists"
+song_table_drop = "DROP TABLE IF EXISTS songs"
+artist_table_drop = "DROP TABLE IF EXISTS artist"
+time_table_drop = "DROP TABLE IF EXIST time"
 
 #CREATE TABLES
 
@@ -122,14 +123,14 @@ copy staging_events from {bucket}
     region      'us-west-2'
     format      as JSON {path}
     timeformat  as 'epochmillisecs'
-""").format(bucket = LOG_DATA, role=IAM_ROLE, path=LOG_PATH)
+""").format(bucket = LOG_DATA, role=IAM_ROLE, path=config['S3']['LOG_JSONPATH'])
 
 staging_songs_copy = ("""
     copy staging_songs from {bucket}
     credentials 'aws_iam_role= {role}'
     region      'us-west-2'
     format      as JSON 'auto'
-""").format(bucket = SONG_DATA, role=IAM_ROLE)
+""").format(bucket = SONG_PATH, role=IAM_ROLE)
 
 #FINAL TABLES
 
