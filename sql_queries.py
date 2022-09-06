@@ -150,18 +150,18 @@ insert into songplays (start_time, user_id, level, song_id, artist_id, location,
 user_table_insert = ( """
 insert into users(user_id, first_name, last_name, gender, level)
     select
-        distinct(UserId)    as user_id
-        firstname           as first_name
-        lastName            as last_name
+        distinct(UserId)    as user_id,
+        firstName           as first_name,
+        lastName            as last_name,
         gender,
         level
     from staging_events
     where user_id is not null
-    and page = "NextSong
+    and page = 'NextSong'
 """)
 
 song_table_insert = ("""
-INSERT INTO songs SELECT DSITINCT (song_id)
+INSERT INTO songs SELECT DISTINCT (song_id)
         song_id,
         title,
         artist_id,
@@ -171,12 +171,11 @@ INSERT INTO songs SELECT DSITINCT (song_id)
 """)
 
 artist_table_insert = ("""
-INSERT INTO artists SELECT DISTINCT (artist_id)
-        artist_id.
+INSERT INTO artist SELECT DISTINCT (artist_id)
+        artist_id,
         artist_name,
         artist_location,
-        artist_latitude,
-        artist_longitude
+        artist_latitude
     FROM staging_songs
 """)
 
@@ -189,7 +188,7 @@ INSERT INTO time
     extract(day from ts),
     extract(week from ts),
     extract(month from ts),
-    extract(year from ts)
+    extract(year from ts),
     extract(weekday from ts)
     FROM temp_time
 """)
