@@ -17,13 +17,15 @@ def main():
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
-    conn = psycopg2.connect("host={} dbname = {} password = {} port={}".format(*config['CLUSTER'].values()))
+    conn = psycopg2.connect("host={} dbname = {} user={} password = {} port={}".format(*config['CLUSTER'].values()))
     cur =conn.cursor()
 
     load_staging_tables(cur, conn)
+    print("Loading Data")
     insert_tables(cur, conn)
+    print("Inserting Data")
 
     conn.close()
 
-if __name__ =="__main__"
+if __name__ =="__main__":
     main()

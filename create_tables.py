@@ -20,7 +20,9 @@ def main():
     cur =conn.cursor()
 
     drop_tables(cur, conn)
+    print("Dropping Tables")
     create_tables(cur, conn)
+    print("Creating Tables")
 
     conn.close()
 
